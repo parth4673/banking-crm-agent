@@ -1,6 +1,6 @@
 # 🏦 Agentic AI for Banking CRM
 
-An **Agentic AI system** that assists Relationship Managers (RMs) in identifying high-potential customers and generating personalized outreach — built with a custom agent loop, OpenAI function calling, SQLite, and Streamlit.
+An **Agentic AI system** that assists Relationship Managers (RMs) in identifying high-potential customers and generating personalized outreach — built with a custom agent loop, LLM function calling, SQLite, and Streamlit.
 
 ---
 
@@ -20,8 +20,8 @@ An **Agentic AI system** that assists Relationship Managers (RMs) in identifying
 │                     AGENT LOOP (agent.py)                        │
 │                                                                  │
 │   ┌─────────┐    ┌───────────────┐    ┌──────────────────┐      │
-│   │ Message  │───▶│  OpenAI LLM   │───▶│  Tool Calls?     │      │
-│   │ History  │    │  (GPT-4o)     │    │                  │      │
+│   │ Message  │───▶│  LLM   │───▶│  Tool Calls?     │      │
+│   │ History  │    │  (Groq/OpenAI/Gemini)     │    │                  │      │
 │   └─────────┘    └───────────────┘    └────────┬─────────┘      │
 │                                          Yes │        │ No       │
 │                                              ▼        ▼          │
@@ -84,7 +84,7 @@ Here's what happens when an RM asks: *"Find high-value customers likely to conve
 ```
 Step 1 ─── RM sends message via Streamlit chat
                 │
-Step 2 ─── Agent sends message + tool definitions to OpenAI
+Step 2 ─── Agent sends message + tool definitions to LLM
                 │
 Step 3 ─── LLM decides: "I need to find high-value customers first"
            └── Calls: get_high_value_customers(min_income=500000, min_credit_score=700)
@@ -150,7 +150,7 @@ Step 10 ── Response displayed in Streamlit with tool trace
 
 1. **Custom agent loop over LangChain**: Built the tool-calling loop from scratch to demonstrate understanding of agentic patterns. Every line of orchestration is visible and debuggable.
 
-2. **OpenAI function calling as the reasoning engine**: The LLM decides which tools to call and in what order. The agent just executes and feeds results back. This gives the system flexibility to handle diverse RM queries.
+2. **LLM function calling as the reasoning engine**: The LLM decides which tools to call and in what order. The agent just executes and feeds results back. This gives the system flexibility to handle diverse RM queries.
 
 3. **SQLite with realistic data**: Instead of mock JSON files, we use a real relational database with 50 customers, ~1300 transactions, products, and interaction history. Tools run actual SQL queries.
 
@@ -169,7 +169,7 @@ Step 10 ── Response displayed in Streamlit with tool trace
 | Heuristic scoring vs. ML model | Explainable but less accurate. A production system would use trained models. |
 | SQLite vs. PostgreSQL/real DB | Easy to run locally but doesn't demonstrate connection pooling or real DB ops. |
 | Single agent vs. multi-agent | Simpler but all logic routes through one LLM context. Multi-agent could specialize. |
-| OpenAI dependency | Requires API key and internet. Could swap for local LLM but quality would drop. |
+| LLM API dependency | Requires API key and internet. Supports Groq (free), OpenAI, and Gemini — switch by changing base_url. |
 | Synthetic data | Realistic patterns but not real-world distributions. Production would connect to actual CRM. |
 | Message template + LLM | Messages have a template base enhanced by LLM. Fully LLM-generated messages could be more creative but less consistent. |
 | No authentication | Demo system has no user auth. Production would need RBAC for RM access control. |
@@ -208,7 +208,7 @@ pip install -r requirements.txt
 ### Step 4: Configure your API key
 ```bash
 cp .env.example .env
-# Edit .env and add your OpenAI API key
+# Edit .env and add your Groq API key (or OpenAI/Gemini)
 ```
 
 Or set it directly:
