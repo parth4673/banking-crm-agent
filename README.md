@@ -180,7 +180,7 @@ Step 10 ── Response displayed in Streamlit with tool trace
 
 ### Prerequisites
 - Python 3.10 or higher
-- An OpenAI API key ([get one here](https://platform.openai.com/api-keys))
+- A free API key from [Groq](https://console.groq.com) (or OpenAI/Gemini)
 
 ### Step 1: Clone the repository
 ```bash
