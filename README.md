@@ -184,8 +184,7 @@ Step 10 ── Response displayed in Streamlit with tool trace
 
 ### Step 1: Clone the repository
 ```bash
-git clone https://github.com/parth4673
-/banking-crm-agent.git
+git clone https://github.com/parth4673/banking-crm-agent.git
 cd banking-crm-agent
 ```
 
