@@ -1,0 +1,46 @@
+graph TB
+    subgraph UI["🖥️ Streamlit Chat UI"]
+        A[RM types query] --> B[Chat Interface]
+        B --> |status updates| S[Real-time Status Display]
+    end
+
+    subgraph AGENT["🧠 Agent Loop"]
+        C[Conversation History] --> D[LLM - Groq/OpenAI/Gemini]
+        D --> E{Tool Calls?}
+        E -->|Yes| F[Execute Tools]
+        F -->|Validate Inputs| V[Input Validator]
+        V -->|Valid| G[Run Tool Function]
+        V -->|Invalid| H[Return Error + Suggestion]
+        G --> I[Feed Results Back]
+        H --> I
+        I --> D
+        E -->|No| J[Return Final Response]
+    end
+
+    subgraph TOOLS["🔧 Tools Layer"]
+        T1[get_high_value_customers]
+        T2[get_customer_profile]
+        T3[search_customers]
+        T4[score_conversion_likelihood]
+        T5[recommend_products]
+        T6[get_product_catalog]
+        T7[generate_whatsapp_message]
+    end
+
+    subgraph DB["💾 SQLite Database"]
+        DB1[(customers - 50)]
+        DB2[(transactions - 1300)]
+        DB3[(products - 8)]
+        DB4[(customer_products - 100)]
+        DB5[(interaction_log - 125)]
+    end
+
+    B --> C
+    J --> B
+    F --> TOOLS
+    TOOLS --> DB
+
+    style UI fill:#E3F2FD,stroke:#1565C0,color:#000
+    style AGENT fill:#FFF3E0,stroke:#E65100,color:#000
+    style TOOLS fill:#E8F5E9,stroke:#2E7D32,color:#000
+    style DB fill:#F3E5F5,stroke:#6A1B9A,color:#000
